@@ -3,22 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http.Controllers;
-using System.Web.Http.Filters;
+using System.Web.Mvc;
 
 namespace GenerateToken.Api.Authentication
 {
     public class AcessAuthorization : ActionFilterAttribute
     {
-        public override void OnActionExecuting(HttpActionContext actionContext)
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            base.OnActionExecuting(actionContext);
-            try
+            base.OnActionExecuting(filterContext);
+            try 
             {
-                if(actionContext.Request.Headers.Authorization == null)
+                
+                if (filterContext.HttpContext.Request.Headers == null)
                     throw new Exception();
+                if (filterContext.HttpContext.Request.Form == null)
+                    throw new Exception();
+
             }catch(Exception e)
             {
-                actionContext.Response.StatusCode = System.Net.HttpStatusCode.BadRequest;
+                filterContext.HttpContext.Response.StatusCode = Convert.ToInt32(System.Net.HttpStatusCode.BadRequest);
+                return;
             }
         }
     }
