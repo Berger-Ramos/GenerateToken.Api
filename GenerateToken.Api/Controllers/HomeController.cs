@@ -7,7 +7,8 @@ using System.Web.Mvc;
 using GenerateToken.Entity.JsonOutput;
 using GenerateToken.Api.Service;
 using GenerateToken.Entity.JsonInput;
-
+using System.Configuration;
+using System.Net;
 
 namespace GenerateToken.Api.Controllers
 {
@@ -17,19 +18,21 @@ namespace GenerateToken.Api.Controllers
         [HttpPost]
         public ActionResult CreateToken(CreateTokenJsonInput jsonInput)
         {
+            ActionExecutedContext actionExecutedContext = new ActionExecutedContext();
             try
             {
                 GenerateTokenJsonOutPut generateTokenJson = new GenerateTokenJsonOutPut()
                 {
                     Token = InternalAutheticationTokenService.CreateToken(jsonInput),
                     Expires_in = 123123123,
-                    TokenType = "bcsds_alho",
+                    TokenType = ConfigurationManager.AppSettings.Get("TokenType"),
                     Scope = "scope"
                 };
                 return Json(generateTokenJson);
             }catch(Exception e)
             {
-                return null;
+                
+                return Json(e.Message);
             }
         }
     }
