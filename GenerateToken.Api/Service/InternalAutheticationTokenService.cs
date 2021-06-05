@@ -12,7 +12,7 @@ namespace GenerateToken.Api.Service
 {
     public class InternalAutheticationTokenService
     {
-        public static string CreateToken(CreateTokenJsonInput jsonInput)
+        public static string CreateToken()
         {
             try
             {
@@ -20,19 +20,15 @@ namespace GenerateToken.Api.Service
                 var key = Encoding.ASCII.GetBytes("asdasd123#123gasdhagsd");
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
+                  CompressionAlgorithm = "PS256",
+                    TokenType = "at+jwt",
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                    new Claim("client_id", jsonInput.Client_id),
-                    new Claim("client_secret",jsonInput.Client_secret),
-                    new Claim("grant_type",jsonInput.Grant_type),
-                    new Claim("scope",jsonInput.Scope)
-
                     }),
                     Expires = DateTime.UtcNow.AddMinutes(60),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
                 };
                 var UnixtimeDate = (DateTimeOffset)tokenDescriptor.Expires;
-                Console.WriteLine(UnixtimeDate.ToUnixTimeSeconds().ToString());
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 return tokenHandler.WriteToken(token);
 

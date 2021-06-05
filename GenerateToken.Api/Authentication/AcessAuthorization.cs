@@ -11,24 +11,31 @@ namespace GenerateToken.Api.Authentication
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            base.OnActionExecuting(filterContext);
             try
             {
-                
-                throw new Exception();
-                if (filterContext.HttpContext.Request.Headers == null)
-                    throw new Exception();
-                if (filterContext.HttpContext.Request.Form == null)
-                    throw new Exception();
-            }catch(Exception e)
+                string client_id = filterContext.HttpContext.Request.Params.Get("client_id");
+                string client_secret = filterContext.HttpContext.Request.Params.Get("client_secret");
+                string grant_type = filterContext.HttpContext.Request.Params.Get("grant_type");
+                string scope = filterContext.HttpContext.Request.Params.Get("scope");
+
+                string[] credencials = { client_id, client_secret, grant_type, scope };
+                CheckCredencials(credencials);
+                   
+            }
+            catch (Exception e)
             {
                 filterContext.HttpContext.Response.StatusCode = Convert.ToInt32(System.Net.HttpStatusCode.BadRequest);
+                filterContext.Result = new JsonResult() { Data = new { succes = "false", message = e.Message } };
                 return;
             }
+            base.OnActionExecuting(filterContext);
         }
-        public override void OnResultExecuted(ResultExecutedContext filterContext)
+        
+        private static bool CheckCredencials(string[] credencials)
         {
-            base.OnResultExecuted(filterContext);
+            if (credencials[0]== null)
+                throw new Exception("Credenciais invalidas");
+            return true;
            
         }
     }

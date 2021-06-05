@@ -16,14 +16,14 @@ namespace GenerateToken.Api.Controllers
     {
         [AcessAuthorization]
         [HttpPost]
-        public ActionResult CreateToken(CreateTokenJsonInput jsonInput)
+        public ActionResult CreateToken()
         {
-            ActionExecutedContext actionExecutedContext = new ActionExecutedContext();
             try
             {
+               
                 GenerateTokenJsonOutPut generateTokenJson = new GenerateTokenJsonOutPut()
                 {
-                    Token = InternalAutheticationTokenService.CreateToken(jsonInput),
+                    Token = InternalAutheticationTokenService.CreateToken(),
                     Expires_in = 123123123,
                     TokenType = ConfigurationManager.AppSettings.Get("TokenType"),
                     Scope = "scope"
