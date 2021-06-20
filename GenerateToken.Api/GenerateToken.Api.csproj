@@ -165,8 +165,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GenerateToken.Entity\GenerateToken.Entity.csproj">
-      <Project>{d48cfe82-734d-40de-b9f8-b525ecb2a48d}</Project>
+      <Project>{a76e8178-b270-4122-ab95-585567c6e0ef}</Project>
       <Name>GenerateToken.Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GenerateToken.Util\GenerateToken.Util.csproj">
+      <Project>{768b492f-d9c5-4a7b-825c-19a89e72e1e9}</Project>
+      <Name>GenerateToken.Util</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

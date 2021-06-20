@@ -1,14 +1,9 @@
 ﻿using GenerateToken.Api.Authentication;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using GenerateToken.Entity.JsonOutput;
 using GenerateToken.Api.Service;
-using GenerateToken.Entity.JsonInput;
 using System.Configuration;
-using System.Net;
+using GenerateToken.Entity.JsonOutPut;
 
 namespace GenerateToken.Api.Controllers
 {
@@ -20,18 +15,20 @@ namespace GenerateToken.Api.Controllers
         {
             try
             {
-               
+                string scope = this.HttpContext.Request.Form.Get("scope");
                 GenerateTokenJsonOutPut generateTokenJson = new GenerateTokenJsonOutPut()
                 {
-                    Token = InternalAutheticationTokenService.CreateToken(),
+                    Token = InternalAutheticationTokenService.CreateToken(scope),
                     Expires_in = 123123123,
                     TokenType = ConfigurationManager.AppSettings.Get("TokenType"),
                     Scope = "scope"
                 };
+
+
                 return Json(generateTokenJson);
             }catch(Exception e)
             {
-                
+                this.HttpContext.Response.StatusCode = 400;
                 return Json(e.Message);
             }
         }

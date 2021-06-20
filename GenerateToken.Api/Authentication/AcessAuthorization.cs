@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Mvc;
+using GenerateToken.Util;
 
 namespace GenerateToken.Api.Authentication
 {
@@ -34,7 +35,7 @@ namespace GenerateToken.Api.Authentication
         private static bool CheckCredencials(string[] credencials)
         {
             if (credencials[0]== null)
-                throw new Exception("Credenciais invalidas");
+                throw new Exception(GenerateTokenExceptions.EX0001);
             return true;
            
         }
